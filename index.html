@@ -3,137 +3,100 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>우리 반 냉장고를 부탁해</title>
+<title>우리 고향 팝업스토어</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@700;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
 <style>
   :root{
-    --bg:#F7F3EC; --panel:#FFFFFF; --panel-2:#F1EBDD;
-    --ink:#2A2620; --ink-soft:#7A756C;
-    --accent:#E8382A; --accent-ink:#FFFFFF;
-    --gold:#B8862E; --teal:#1E8F76; --steel:#8B8577; --line:#E4DFD2;
-    --wood:#C98F4E; --wood-dark:#3B2A17;
+    --bg:#F4F1E8; --panel:#FFFFFF; --ink:#2A2620; --ink-soft:#7A756C;
+    --accent:#E8553A; --accent-ink:#FFFFFF; --teal:#1E8F76; --steel:#8B8577; --line:#E4DFD2;
+    --kraft:#D9B98A; --wood:#EBD9B8; --mint:#AEDCC8; --brown:#4A3520;
     --shadow: 0 12px 28px -14px rgba(0,0,0,.18);
   }
   *{ box-sizing:border-box; }
-  html,body{ margin:0; padding:0; background:#EDE8DD; color:var(--ink); overflow-x:hidden; }
+  html,body{ margin:0; padding:0; background:#E9DFC4; color:var(--ink); overflow-x:hidden; }
   body{ font-family:'Noto Sans KR',sans-serif; display:flex; flex-direction:column; min-height:100dvh; }
   .wrap{ width:100%; max-width:640px; margin-inline:auto; padding-inline:20px; position:relative; z-index:1; }
 
-  /* ===== 벽(타일 백스플래시) + 걸이대 ===== */
-  .wall{ position:relative; overflow:hidden; padding-bottom:40px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Crect width='72' height='72' fill='%23F6F2EA'/%3E%3Cg fill='none' stroke='%23DDD6C6' stroke-width='2'%3E%3Cpath d='M0 1H72M0 37H72M1 0V36M37 36V72'/%3E%3C/g%3E%3C/svg%3E") #F6F2EA; }
-  .wall::after{ content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
-    background: radial-gradient(70% 80% at 50% 0%, rgba(255,255,255,.6), transparent 70%), linear-gradient(transparent 55%, rgba(120,100,70,.14)); }
-  .rail{ display:block; width:100%; height:auto; overflow:visible; margin-bottom:6px;
-    filter: drop-shadow(0 6px 5px rgba(60,40,10,.22)); }
-  header{ display:flex; flex-direction:column; gap:8px; }
-  .badge{
-    display:inline-flex; align-self:flex-start; align-items:center; gap:6px;
-    color:var(--steel); font-size:11.5px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
-    padding:4px 0; border-top:1px solid #CFC8B6; border-bottom:1px solid #CFC8B6;
-  }
+  /* ===== 하늘 + 차양 + 전구 ===== */
+  .sky{ position:relative; overflow:hidden; padding-bottom:46px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='60'%3E%3Cg fill='%23B3D2A8' opacity='.7'%3E%3Ccircle cx='20' cy='48' r='24'/%3E%3Ccircle cx='62' cy='40' r='20'/%3E%3Ccircle cx='108' cy='50' r='26'/%3E%3Ccircle cx='146' cy='42' r='18'/%3E%3C/g%3E%3C/svg%3E") repeat-x left bottom, linear-gradient(#D9EAF3 0, #EAF3F0 100%); }
+  .awning{ height:46px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='46'%3E%3Cpath d='M0 0H48V20A24 24 0 0 1 0 20Z' fill='white'/%3E%3Cpath d='M48 20A24 24 0 0 1 0 20' fill='none' stroke='%23D9452F' stroke-width='3'/%3E%3C/svg%3E") repeat-x; background-size:48px 46px; filter:drop-shadow(0 4px 3px rgba(60,40,10,.2)); position:relative; z-index:2; }
+  .lights{ height:30px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='30'%3E%3Cpath d='M0 2Q32 20 64 2' fill='none' stroke='%235B4A33' stroke-width='1.2'/%3E%3Ccircle cx='32' cy='15' r='8.5' fill='%23FFE27A' fill-opacity='.4'/%3E%3Ccircle cx='32' cy='15' r='4' fill='%23FFE27A'/%3E%3C/svg%3E") repeat-x; background-size:64px 30px; margin-top:-2px; position:relative; z-index:2; }
+  header{ display:flex; flex-direction:column; gap:8px; padding-top:14px; }
+  .badge{ display:inline-flex; align-self:flex-start; align-items:center; gap:6px; color:#6B7A83; font-size:11.5px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+    padding:4px 0; border-top:1px solid #B9CCD6; border-bottom:1px solid #B9CCD6; }
   h1{ font-family:'Gothic A1',sans-serif; font-weight:900; font-size:clamp(28px,7.5vw,40px); margin:0; line-height:1.15; letter-spacing:-.01em; }
-  h1 .cut{ position:relative; display:inline-block; color:var(--ink); }
+  h1 .cut{ position:relative; display:inline-block; }
   h1 .cut::after{ content:''; position:absolute; left:-4%; right:-4%; bottom:6%; height:38%; background:var(--accent); z-index:-1; transform:skewX(-10deg); opacity:.9; }
   .tagline{ font-size:13px; font-weight:700; color:var(--accent); letter-spacing:.03em; font-style:italic; margin:0; }
-  .sub{ color:#625D54; font-size:14px; line-height:1.65; margin:0; }
+  .sub{ color:#55606A; font-size:14px; line-height:1.65; margin:0; }
 
-  /* 넓은 화면의 여백 장식 */
+  /* 넓은 화면의 여백 장식: 간판 + 현수막 */
   .side{ display:none; position:absolute; z-index:1; }
-  .side svg{ display:block; width:100%; height:auto; }
   @media (min-width:1080px){
     .side{ display:block; }
-    .side.shelf{ width:190px; right:calc(50% + 350px); top:36px; }
-    .side.chalk{ left:calc(50% + 350px); top:44px; width:200px; }
-    .side.towel{ width:62px; left:calc(50% + 380px); top:215px; }
-    .side.stockpot{ width:150px; right:calc(50% + 340px); bottom:-10px; }
-    .side.bottles{ width:150px; left:calc(50% + 400px); bottom:-10px; }
+    .side.sign{ right:calc(50% + 350px); top:110px; width:200px; }
+    .side.flag{ left:calc(50% + 350px); top:100px; width:200px; }
   }
-  .chalkboard{ background:#2F3B36; color:#F3F1E8; border:11px solid #B87F43; border-radius:6px; padding:14px 12px 16px;
-    text-align:center; transform:rotate(1.6deg); box-shadow:0 14px 18px -10px rgba(60,35,10,.5), inset 0 0 22px rgba(0,0,0,.35);
-    font-family:'Gothic A1',sans-serif; }
-  .chalkboard small{ display:block; font-size:11px; letter-spacing:.2em; opacity:.7; }
-  .chalkboard b{ display:block; font-size:21px; font-weight:900; margin:6px 0 4px; }
-  .chalkboard span{ font-size:13px; opacity:.88; border-top:1.5px dashed rgba(243,241,232,.45); display:block; padding-top:7px; margin-top:6px; }
+  .signboard{ background:#EBD3A3; border:7px solid #C99A5B; border-radius:8px; padding:14px 12px; text-align:center; box-shadow:0 12px 16px -8px rgba(60,35,10,.4); transform:rotate(-2deg); font-family:'Gothic A1',sans-serif; color:#4A3520; }
+  .signboard small{ display:block; font-size:11px; letter-spacing:.2em; opacity:.7; }
+  .signboard b{ display:block; font-size:21px; font-weight:900; margin:6px 0 4px; }
+  .signboard span{ font-size:13px; border-top:1.5px dashed rgba(74,53,32,.4); display:block; padding-top:7px; margin-top:6px; }
+  .flagbanner{ background:#AEDCC8; border-radius:4px 4px 0 0; padding:16px 12px 26px; text-align:center; font-family:'Gothic A1',sans-serif; font-weight:900; color:#16463A; font-size:20px; line-height:1.3;
+    clip-path:polygon(0 0,100% 0,100% 100%,50% 88%,0 100%); box-shadow:0 10px 14px rgba(0,0,0,.1); transform:rotate(1.5deg); }
 
-  /* ===== 조리대(석재 상판) ===== */
-  .counter{
-    flex:1; position:relative; padding-top:34px;
-    border-top:9px solid #DAD4C5; box-shadow: inset 0 14px 16px -12px rgba(60,40,10,.35);
-    background-color:#EDE8DD;
+  /* ===== 셀러 테이블 (나무 상판) ===== */
+  .table{ flex:1; position:relative; padding-top:34px; display:flex; flex-direction:column;
+    background-color:#EBD9B8;
     background-image:
-      radial-gradient(circle at 20% 30%, rgba(120,108,86,.20) 0 1.3px, transparent 1.8px),
-      radial-gradient(circle at 70% 65%, rgba(120,108,86,.16) 0 1px, transparent 1.6px),
-      radial-gradient(circle at 45% 85%, rgba(150,135,110,.22) 0 1.6px, transparent 2.2px),
-      radial-gradient(circle at 85% 20%, rgba(200,70,50,.10) 0 1.3px, transparent 1.9px);
-    background-size: 97px 97px, 61px 61px, 133px 133px, 173px 173px;
-    display:flex; flex-direction:column;
-  }
-  .counter .wrap{ display:flex; flex-direction:column; gap:30px; }
+      repeating-linear-gradient(0deg, rgba(120,80,30,.13) 0 2px, transparent 2px 92px),
+      repeating-linear-gradient(90deg, rgba(120,80,30,.05) 0 1px, transparent 1px 7px);
+    box-shadow:inset 0 14px 16px -12px rgba(60,40,10,.35);
+    border-top:9px solid #D9C292; }
+  .table .wrap{ display:flex; flex-direction:column; gap:30px; }
 
-  /* 도마 (그림 그리는 패널) */
   .panel{ position:relative; display:flex; flex-direction:column; gap:14px; }
-  .board{
-    padding:24px 18px 18px; border-radius:22px;
-    background:
-      repeating-linear-gradient(91deg, rgba(120,70,20,.11) 0 2px, transparent 2px 10px),
-      repeating-linear-gradient(89deg, rgba(255,255,255,.10) 0 1px, transparent 1px 15px),
-      linear-gradient(135deg,#DDAE70,#C98F4E 55%,#D6A363);
-    box-shadow: 0 22px 26px -14px rgba(60,35,10,.55), inset 0 0 0 2px rgba(255,255,255,.22), inset 0 -7px 0 rgba(90,50,10,.20);
-  }
-  .board::after{ content:''; position:absolute; top:13px; right:18px; width:26px; height:26px; border-radius:50%;
-    background:#EDE8DD; box-shadow: inset 0 3px 5px rgba(60,35,10,.55), 0 1px 0 rgba(255,255,255,.35); }
-  .board::before{ content:attr(data-mission); position:absolute; top:15px; right:56px; font-family:'Gothic A1',sans-serif; font-weight:900;
-    font-size:11px; letter-spacing:.14em; color:rgba(70,40,10,.55); border:1.5px solid rgba(70,40,10,.4); padding:2px 8px; border-radius:3px; transform:rotate(-2deg); }
-  .board h2{ color:var(--wood-dark); }
-  .board label{ color:var(--wood-dark); }
   .panel h2{ font-size:16px; margin:0; font-weight:900; font-family:'Gothic A1',sans-serif; display:flex; align-items:center; gap:8px; }
+  .chip{ font-size:10.5px; font-weight:900; letter-spacing:.12em; padding:2px 8px; border-radius:3px; background:rgba(74,53,32,.12); color:#6B4A25; }
 
-  canvas{
-    width:100%; aspect-ratio:4/3; border-radius:8px; background:#EDEAE2;
-    border:3px solid #FBF7EE; touch-action:none; cursor:crosshair; display:block;
-    box-shadow: 0 0 0 1px rgba(90,50,10,.35), inset 0 2px 8px rgba(0,0,0,.12);
-  }
+  /* 크라프트지 시안판 */
+  .paper{ padding:26px 18px 18px; border-radius:6px;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(90,60,20,.10) 0 1px, transparent 1.6px) 0 0/23px 23px,
+      radial-gradient(circle at 70% 60%, rgba(90,60,20,.08) 0 1px, transparent 1.6px) 0 0/31px 31px,
+      linear-gradient(135deg,#E0C195,#D3B07F);
+    box-shadow:0 18px 22px -14px rgba(60,35,10,.55), inset 0 0 0 1px rgba(255,255,255,.25); }
+  .paper::before,.paper::after{ content:''; position:absolute; top:-9px; width:74px; height:22px; background:repeating-linear-gradient(135deg,#F2A9A0 0 7px,#F8C8C0 7px 14px); opacity:.92; box-shadow:0 2px 3px rgba(0,0,0,.15); }
+  .paper::before{ left:14px; transform:rotate(-6deg); }
+  .paper::after{ right:14px; transform:rotate(5deg); background:repeating-linear-gradient(135deg,#8FD0BB 0 7px,#B6E2D2 7px 14px); }
+  .paper h2, .paper label{ color:var(--brown); }
+
+  canvas{ width:100%; aspect-ratio:4/3; border-radius:4px; background:#EDEAE2; border:4px solid #FFFDF6; touch-action:none; cursor:crosshair; display:block;
+    box-shadow:0 0 0 1px rgba(90,50,10,.3), inset 0 2px 8px rgba(0,0,0,.1); }
   .toolrow{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-  .swatches{ display:flex; gap:6px; }
-  .swatch{ width:24px; height:24px; border-radius:50%; border:2px solid #FBF7EE; outline:1px solid rgba(90,50,10,.35); cursor:pointer; padding:0; }
-  .swatch[aria-pressed="true"]{ outline:2px solid var(--wood-dark); outline-offset:1px; }
+  .swatches{ display:flex; flex-wrap:wrap; gap:6px; max-width:100%; }
+  .swatch{ width:24px; height:24px; border-radius:50%; border:2px solid #FFFDF6; outline:1px solid rgba(90,50,10,.35); cursor:pointer; padding:0; }
+  .swatch[aria-pressed="true"]{ outline:2px solid var(--brown); outline-offset:1px; }
   .colorpicker-label{ width:26px; height:26px; border-radius:50%; overflow:hidden; display:inline-block; border:1px solid rgba(90,50,10,.35); cursor:pointer; position:relative; }
   .colorpicker-label input[type="color"]{ position:absolute; inset:-4px; width:calc(100% + 8px); height:calc(100% + 8px); border:none; padding:0; cursor:pointer; }
   input[type="range"]{ accent-color:#7A4A1E; width:84px; }
-  .ghostbtn,.primarybtn{
-    font-family:'Noto Sans KR',sans-serif; border-radius:6px; border:1px solid rgba(90,50,10,.35);
-    background:#F4E6CC; color:var(--wood-dark); font-size:13px; padding:7px 14px; cursor:pointer; font-weight:500;
-  }
-  .primarybtn{
-    font-family:'Gothic A1',sans-serif; background:var(--accent); color:var(--accent-ink); border:1px solid #8f1108;
-    font-weight:900; padding:16px 20px; font-size:17px; width:100%; letter-spacing:.02em; border-radius:12px;
-    box-shadow:0 8px 0 #A9261B, 0 18px 24px -10px rgba(232,56,42,.55);
-    transition:transform .08s, box-shadow .08s;
-  }
-  .primarybtn:active{ transform:translateY(5px); box-shadow:0 3px 0 #A9261B, 0 8px 14px -8px rgba(232,56,42,.5); }
+  .ghostbtn,.primarybtn{ font-family:'Noto Sans KR',sans-serif; border-radius:6px; border:1px solid rgba(90,50,10,.35); background:#FBF1DC; color:var(--brown); font-size:13px; padding:7px 14px; cursor:pointer; font-weight:500; }
+  .primarybtn{ font-family:'Gothic A1',sans-serif; background:var(--accent); color:var(--accent-ink); border:1px solid #9a2e18; font-weight:900; padding:16px 20px; font-size:17px; width:100%; letter-spacing:.02em; border-radius:12px;
+    box-shadow:0 8px 0 #B03A22, 0 18px 24px -10px rgba(232,85,58,.55); transition:transform .08s, box-shadow .08s; }
+  .primarybtn:active{ transform:translateY(5px); box-shadow:0 3px 0 #B03A22, 0 8px 14px -8px rgba(232,85,58,.5); }
   .primarybtn:disabled{ opacity:.5; cursor:not-allowed; box-shadow:none; }
   label{ font-size:12.5px; font-weight:700; color:var(--ink-soft); display:block; margin-bottom:5px; }
   .field{ margin-bottom:0; }
+  .hint{ font-size:11.5px; font-weight:400; color:#A9A394; }
 
-  /* 주문서(메뉴판) */
-  .ticket{
-    padding:34px 20px 24px; background:#FFFEF8; border-radius:4px 4px 0 0;
-    box-shadow: 0 16px 22px -14px rgba(60,40,10,.4), 0 1px 0 rgba(0,0,0,.04);
-  }
-  .ticket::after{ content:''; position:absolute; left:0; right:0; bottom:-10px; height:10px;
-    background: linear-gradient(135deg,#FFFEF8 25%,transparent 25%) -7px 0, linear-gradient(225deg,#FFFEF8 25%,transparent 25%) -7px 0;
-    background-size:14px 14px; filter: drop-shadow(0 4px 3px rgba(60,40,10,.15)); }
-  .ticket::before{ content:attr(data-mission); position:absolute; top:16px; right:18px; font-size:11px; font-weight:700; letter-spacing:.14em;
-    color:#B5AE9C; border:1px dashed #D5CEBC; padding:2px 8px; }
-  .pin{ position:absolute; top:-13px; left:50%; width:58px; height:24px; margin-left:-29px; border-radius:7px 7px 3px 3px;
-    background:linear-gradient(#EEF0F2,#A9AEB4); box-shadow:0 4px 5px rgba(0,0,0,.28); }
-  .pin::after{ content:''; position:absolute; left:10px; right:10px; top:9px; height:4px; border-radius:2px; background:rgba(0,0,0,.25); }
-  .ticketmeta{ display:flex; justify-content:space-between; font-size:11.5px; color:#9A9486; border-bottom:1.5px dashed #D5CEBC; padding-bottom:10px; margin-top:-4px; }
-  input[type="text"], textarea{
-    width:100%; font-family:'Noto Sans KR',sans-serif; font-size:15px; padding:9px 4px;
-    border:0; border-bottom:1.5px dashed #CFC8B4; border-radius:0; background:transparent; color:var(--ink);
-  }
-  input[type="text"]:focus, textarea:focus{ outline:none; border-bottom-color:var(--accent); background:rgba(232,56,42,.04); }
+  /* 상품 태그(가격표) */
+  .hangtag{ margin-top:22px; padding:34px 20px 24px; background:#FFFEF8; border-radius:14px; box-shadow:0 16px 22px -14px rgba(60,40,10,.4); }
+  .hangtag::before{ content:''; position:absolute; top:11px; left:50%; width:16px; height:16px; margin-left:-8px; border-radius:50%; background:#EBD9B8; box-shadow:inset 0 2px 3px rgba(60,35,10,.5); }
+  .hangtag::after{ content:''; position:absolute; top:-26px; left:50%; width:46px; height:44px; margin-left:-23px; border:2.5px solid #D9452F; border-bottom:none; border-radius:50% 50% 0 0 / 100% 100% 0 0; }
+  .hangtag .chip{ position:absolute; top:14px; right:16px; }
+  .tagmeta{ display:flex; justify-content:space-between; font-size:11.5px; color:#9A9486; border-bottom:1.5px dashed #D5CEBC; padding-bottom:10px; margin-top:6px; }
+  input[type="text"], textarea{ width:100%; font-family:'Noto Sans KR',sans-serif; font-size:15px; padding:9px 4px; border:0; border-bottom:1.5px dashed #CFC8B4; border-radius:0; background:transparent; color:var(--ink); }
+  input[type="text"]:focus, textarea:focus{ outline:none; border-bottom-color:var(--accent); background:rgba(232,85,58,.05); }
   input[type="text"]::placeholder, textarea::placeholder{ color:#A9A394; }
   textarea{ resize:vertical; min-height:54px; line-height:1.5; }
 
@@ -141,93 +104,40 @@
   .status.ok{ color:var(--teal); font-weight:700; }
   .status.err{ color:var(--accent); font-weight:700; }
 
-  /* 조리대 위 소품 + 하부장 */
+  /* 테이블 위 소품 + 테이블보 + 잔디 */
   .items{ display:block; width:100%; height:auto; margin-top:4px; margin-bottom:-4px; position:relative; z-index:1; }
-  .counterfront{ height:16px; background:linear-gradient(#F3F5F6,#BFC4C9 55%,#9CA2A8); box-shadow:0 6px 10px -2px rgba(0,0,0,.28); position:relative; z-index:2; }
-  .cabinet{ display:flex; height:130px; background:#8FB3A0; overflow:hidden; }
-  .cabinet .door{ flex:1; min-width:130px; position:relative; border-right:2px solid rgba(0,0,0,.18); }
-  .cabinet .door::before{ content:''; position:absolute; inset:14px; border:2px solid rgba(255,255,255,.35); border-radius:6px; box-shadow:inset 0 0 0 5px rgba(0,0,0,.04); }
-  .cabinet .door::after{ content:''; position:absolute; top:22px; left:50%; width:9px; height:34px; margin-left:-4px; border-radius:5px; background:linear-gradient(90deg,#E9ECEF,#9AA0A6); box-shadow:0 2px 3px rgba(0,0,0,.3); }
-  .cabinet .door:nth-child(odd)::after{ left:calc(100% - 34px); }
-  .cabinet .door:nth-child(even)::after{ left:34px; }
+  .tablefront{ position:relative; z-index:2; height:92px; background:
+      repeating-linear-gradient(90deg, #9FD0BA 0 22px, #AEDCC8 22px 44px); box-shadow:0 -3px 0 #F1DDB2, 0 -5px 0 #C9A56E; }
+  .tablefront::after{ content:''; position:absolute; left:0; right:0; bottom:-16px; height:16px;
+    background:radial-gradient(circle at 22px 0, #AEDCC8 15px, transparent 16px) 0 0/44px 16px repeat-x; }
+  .grass{ height:70px; background:#79AE78; position:relative; z-index:1; border-top:4px solid #D9C8A0;
+    background-image:repeating-linear-gradient(0deg, rgba(255,255,255,.12) 0 3px, transparent 3px 22px); }
 
-  .toast{
-    position:fixed; left:50%; bottom:24px; transform:translateX(-50%) translateY(120%);
-    background:var(--ink); color:var(--bg); padding:12px 20px; border-radius:4px;
-    font-family:'Gothic A1',sans-serif; font-weight:900; font-size:14px; box-shadow:var(--shadow);
-    transition:transform .3s ease; z-index:10; border-left:4px solid var(--accent);
-  }
+  .toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%) translateY(120%); background:var(--ink); color:var(--bg); padding:12px 20px; border-radius:4px;
+    font-family:'Gothic A1',sans-serif; font-weight:900; font-size:14px; box-shadow:var(--shadow); transition:transform .3s ease; z-index:10; border-left:4px solid var(--accent); }
   .toast.show{ transform:translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
-  <div class="wall">
+  <div class="sky">
+    <div class="awning"></div>
+    <div class="lights"></div>
     <div class="wrap">
-      <svg class="rail" viewBox="0 0 640 150" aria-hidden="true">
-  <rect x="-3000" y="8" width="6640" height="8" fill="#B3B8BE"/>
-  <rect x="-3000" y="8" width="6640" height="3" fill="#E4E7EA"/>
-  <rect x="-3000" y="16" width="6640" height="7" fill="#000" opacity=".07"/>
-  <!-- ladle -->
-  <circle cx="70" cy="24" r="6" fill="none" stroke="#8E949B" stroke-width="3"/>
-  <path d="M70 30 V92" stroke="#A9AEB4" stroke-width="6" stroke-linecap="round"/>
-  <path d="M50 92 A20 20 0 0 0 90 92 Z" fill="#B5BAC0"/><ellipse cx="70" cy="92" rx="20" ry="4.5" fill="#8E949B"/>
-  <!-- whisk -->
-  <circle cx="170" cy="24" r="6" fill="none" stroke="#8E949B" stroke-width="3"/>
-  <rect x="165" y="30" width="10" height="42" rx="5" fill="#8A5A2B"/>
-  <g fill="none" stroke="#9AA0A6" stroke-width="2.2">
-    <ellipse cx="170" cy="104" rx="21" ry="32"/><ellipse cx="170" cy="104" rx="12" ry="32"/><ellipse cx="170" cy="104" rx="4" ry="32"/>
-  </g>
-  <rect x="164" y="68" width="12" height="6" rx="2" fill="#8E949B"/>
-  <!-- spatula -->
-  <circle cx="265" cy="24" r="6" fill="none" stroke="#8E949B" stroke-width="3"/>
-  <rect x="261" y="30" width="8" height="52" rx="4" fill="#8A5A2B"/>
-  <path d="M252 82 H278 V120 Q278 132 265 132 Q252 132 252 120 Z" fill="#E8382A"/>
-  <rect x="257" y="94" width="3" height="26" rx="1.5" fill="#fff" opacity=".55"/><rect x="263.5" y="94" width="3" height="26" rx="1.5" fill="#fff" opacity=".55"/><rect x="270" y="94" width="3" height="26" rx="1.5" fill="#fff" opacity=".55"/>
-  <!-- pan -->
-  <circle cx="380" cy="24" r="6" fill="none" stroke="#8E949B" stroke-width="3"/>
-  <rect x="375" y="30" width="10" height="44" rx="5" fill="#3A3D42"/>
-  <circle cx="380" cy="108" r="36" fill="#52565C"/><circle cx="380" cy="108" r="29" fill="#3E4247"/>
-  <path d="M356 94 A28 28 0 0 1 372 82" stroke="#fff" opacity=".35" stroke-width="3" fill="none" stroke-linecap="round"/>
-  <!-- pot -->
-  <circle cx="558" cy="24" r="6" fill="none" stroke="#8E949B" stroke-width="3"/>
-  <path d="M558 30 V93" stroke="#8E949B" stroke-width="2"/>
-  <rect x="470" y="86" width="52" height="44" rx="7" fill="#B5BAC0"/><rect x="466" y="82" width="60" height="8" rx="4" fill="#9AA0A6"/>
-  <rect x="526" y="92" width="38" height="8" rx="4" fill="#3A3D42"/><circle cx="558" cy="96" r="2.5" fill="#B5BAC0"/>
-  <rect x="476" y="94" width="6" height="30" rx="3" fill="#fff" opacity=".35"/>
-</svg>
       <header>
-        <div class="badge">Class Cooking Survival · 30분 완성</div>
-        <h1>우리 반 <span class="cut">냉장고</span>를 부탁해</h1>
-        <p class="tagline">오직 맛으로, 완성한다</p>
-        <p class="sub">냉장고 속엔 한식 재료와 세계 여러 나라의 문화가 뒤섞여 있어요. 이 재료들로 세상에 없던 K-퓨전 메뉴를 완성해서 오늘의 냉장고 결과 발표에 올려보세요.</p>
+        <div class="badge">Pop-up Market · 30분 오픈 준비</div>
+        <h1>우리 고향 <span class="cut">팝업스토어</span></h1>
+        <p class="tagline">내 고향의 대표 상품, 오늘의 셀러는 바로 너</p>
+        <p class="sub">여러분은 오늘 플리마켓의 셀러예요. 내 고향(또는 지금 사는 곳, 할머니 댁 동네도 좋아요)에서 유명한 것으로 팝업스토어 상품을 만들어 매대에 올려보세요.</p>
       </header>
     </div>
-    <div class="side shelf"><svg viewBox="0 0 190 270" aria-hidden="true">
-  <rect x="0" y="118" width="190" height="11" rx="2" fill="#C98F4E"/><rect x="0" y="118" width="190" height="3" fill="#E2B882"/>
-  <path d="M14 129 v24 l24 -24 z M152 129 v24 l24 -24 z" fill="#8E949B"/>
-  <rect x="8" y="56" width="42" height="62" rx="9" fill="#fff" fill-opacity=".55" stroke="#BDB7A8"/><rect x="11" y="80" width="36" height="35" rx="7" fill="#C93A22"/><rect x="13" y="47" width="32" height="11" rx="3" fill="#4A4F55"/><rect x="16" y="82" width="26" height="17" rx="2" fill="#fff" fill-opacity=".92"/><rect x="20" y="87" width="18" height="2.5" rx="1" fill="#9A9486"/><rect x="20" y="92" width="12" height="2.5" rx="1" fill="#C9C3B4"/><rect x="74" y="64" width="40" height="54" rx="9" fill="#fff" fill-opacity=".55" stroke="#BDB7A8"/><rect x="77" y="85" width="34" height="30" rx="7" fill="#D8C08A"/><rect x="79" y="55" width="30" height="11" rx="3" fill="#4A4F55"/><rect x="82" y="87" width="24" height="17" rx="2" fill="#fff" fill-opacity=".92"/><rect x="86" y="92" width="16" height="2.5" rx="1" fill="#9A9486"/><rect x="86" y="97" width="10" height="2.5" rx="1" fill="#C9C3B4"/><rect x="138" y="52" width="42" height="66" rx="9" fill="#fff" fill-opacity=".55" stroke="#BDB7A8"/><rect x="141" y="77" width="36" height="38" rx="7" fill="#5C9A5B"/><rect x="143" y="43" width="32" height="11" rx="3" fill="#4A4F55"/><rect x="146" y="80" width="26" height="17" rx="2" fill="#fff" fill-opacity=".92"/><rect x="150" y="85" width="18" height="2.5" rx="1" fill="#9A9486"/><rect x="150" y="90" width="12" height="2.5" rx="1" fill="#C9C3B4"/>
-  <rect x="0" y="236" width="190" height="11" rx="2" fill="#C98F4E"/><rect x="0" y="236" width="190" height="3" fill="#E2B882"/>
-  <path d="M14 247 v22 l22 -22 z M152 247 v22 l22 -22 z" fill="#8E949B"/>
-  <!-- herb pot -->
-  <path d="M26 236 l4 -34 h42 l4 34 z" fill="#C8683F"/><rect x="24" y="196" width="54" height="9" rx="3" fill="#B65A34"/>
-  <g fill="#4E9B5E"><ellipse cx="38" cy="180" rx="8" ry="16" transform="rotate(-24 38 180)"/><ellipse cx="51" cy="172" rx="8" ry="19"/><ellipse cx="64" cy="180" rx="8" ry="16" transform="rotate(24 64 180)"/></g>
-  <!-- plates -->
-  <g><ellipse cx="136" cy="233" rx="40" ry="6" fill="#fff" stroke="#D8D2C2"/><ellipse cx="136" cy="226" rx="40" ry="6" fill="#fff" stroke="#D8D2C2"/><ellipse cx="136" cy="219" rx="40" ry="6" fill="#fff" stroke="#D8D2C2"/>
-  <ellipse cx="136" cy="219" rx="30" ry="3.8" fill="none" stroke="#E8382A" stroke-width="1.5"/></g>
-</svg></div>
-    <div class="side chalk"><div class="chalkboard"><small>TODAY'S SPECIAL</small><b>한식 × 세계</b><span>= 우리 반 K-퓨전</span></div></div>
-    <div class="side bottles"><svg viewBox="0 0 150 120" aria-hidden="true">
-  <ellipse cx="75" cy="114" rx="62" ry="5" fill="#000" opacity=".12"/>
-  <rect x="12" y="52" width="30" height="62" rx="9" fill="#C9A24A"/><rect x="21" y="34" width="12" height="22" rx="3" fill="#C9A24A"/><rect x="19" y="28" width="16" height="9" rx="3" fill="#4A4F55"/><rect x="16" y="72" width="22" height="26" rx="3" fill="#F7F3EC"/><rect x="20" y="80" width="14" height="3" fill="#9A9486"/><rect x="20" y="87" width="10" height="3" fill="#C9C3B4"/>
-  <rect x="52" y="40" width="32" height="74" rx="10" fill="#3B2A1F"/><rect x="62" y="20" width="12" height="24" rx="3" fill="#3B2A1F"/><rect x="60" y="13" width="16" height="9" rx="3" fill="#E8382A"/><rect x="56" y="66" width="24" height="28" rx="3" fill="#F7F3EC"/><rect x="60" y="74" width="16" height="3" fill="#9A9486"/><rect x="60" y="81" width="11" height="3" fill="#C9C3B4"/>
-  <rect x="96" y="58" width="42" height="56" rx="8" fill="#fff" fill-opacity=".6" stroke="#BDB7A8"/><rect x="100" y="76" width="34" height="35" rx="6" fill="#C93A22"/><rect x="101" y="48" width="32" height="11" rx="3" fill="#4A4F55"/>
-</svg></div>
+    <div class="side sign"><div class="signboard"><small>TODAY'S MARKET</small><b>우리 고향<br>팝업스토어</b><span>지역을 팝니다</span></div></div>
+    <div class="side flag"><div class="flagbanner">오늘의<br>셀러 모집!</div></div>
   </div>
 
-  <main class="counter">
+  <main class="table">
     <div class="wrap">
-      <section class="panel board" data-mission="MISSION 01">
-        <h2>냉장고 속 재료 그리기</h2>
+      <section class="panel paper">
+        <h2><span class="chip">STEP 1</span>내 상품 시안 그리기</h2>
         <canvas id="canvas"></canvas>
         <div class="toolrow">
           <div class="swatches" id="swatches"></div>
@@ -243,71 +153,66 @@
         </div>
       </section>
 
-      <section class="panel ticket" data-mission="MISSION 02">
-        <i class="pin"></i>
-        <h2>오늘의 메뉴판 작성</h2>
-        <div class="ticketmeta"><span>주문서 · ORDER</span><span>한식 × 세계 = K-퓨전</span></div>
+      <section class="panel hangtag">
+        <span class="chip">STEP 2</span>
+        <h2>상품 태그 작성</h2>
+        <div class="tagmeta"><span>PRODUCT TAG</span><span>우리 고향 팝업스토어</span></div>
         <div class="field">
-          <label for="author">셰프 이름(또는 모둠명)</label>
+          <label for="author">내 이름(또는 모둠명)</label>
           <input type="text" id="author" placeholder="예: 2모둠 김민준" maxlength="30">
         </div>
         <div class="field">
-          <label for="menuName">메뉴 이름</label>
-          <input type="text" id="menuName" placeholder="예: 불고기 케밥" maxlength="40">
+          <label for="korean">어느 지역 상품인가요? <span class="hint">고향 · 사는 곳 · 할머니 댁, 어디든 OK</span></label>
+          <input type="text" id="korean" placeholder="예: 강원도 횡성" maxlength="30">
         </div>
         <div class="field">
-          <label for="korean">어떤 한식을 넣었나요?</label>
-          <input type="text" id="korean" placeholder="예: 불고기" maxlength="30">
+          <label for="menuName">상품 이름</label>
+          <input type="text" id="menuName" placeholder="예: 횡성 한우 육포 세트" maxlength="40">
         </div>
         <div class="field">
-          <label for="culture">어떤 나라 문화와 섞었나요?</label>
-          <input type="text" id="culture" placeholder="예: 터키" maxlength="30">
+          <label for="culture">그 지역의 무엇을 담았나요? <span class="hint">특산물 · 축제 · 풍경 · 이야기</span></label>
+          <input type="text" id="culture" placeholder="예: 지리적표시제 한우" maxlength="30">
         </div>
         <div class="field">
           <label for="desc">한 줄 소개</label>
-          <textarea id="desc" maxlength="140" placeholder="예: 달콤짭짤한 불고기를 화덕에 구워 얇은 빵에 채소와 함께 싸먹는 메뉴예요."></textarea>
+          <textarea id="desc" maxlength="140" placeholder="예: 횡성 한우를 얇게 말린 선물용 육포 세트예요."></textarea>
         </div>
         <div class="field">
-          <label for="country">어떤 나라 사람들 입맛을 고려했나요?</label>
-          <input type="text" id="country" placeholder="예: 향신료보다 달콤한 맛을 좋아하는 입맛" maxlength="60">
+          <label for="country">외국인 관광객에게 팔려면 뭘 바꿀까요?</label>
+          <input type="text" id="country" placeholder="예: 영어 설명 카드와 한 입 크기 소포장" maxlength="60">
         </div>
       </section>
 
-      <button class="primarybtn" id="submitBtn" type="button">완성, 제출한다</button>
+      <button class="primarybtn" id="submitBtn" type="button">매대에 올리기</button>
       <div class="status" id="statusLine"></div>
       <svg class="items" viewBox="0 0 640 112" aria-hidden="true">
   <ellipse cx="320" cy="108" rx="300" ry="4" fill="#000" opacity=".10"/>
-  <!-- bottle -->
-  <rect x="40" y="46" width="34" height="62" rx="10" fill="#3B2A1F"/><rect x="50" y="28" width="14" height="22" rx="3" fill="#3B2A1F"/><rect x="48" y="21" width="18" height="9" rx="3" fill="#E8382A"/>
-  <rect x="44" y="66" width="26" height="26" rx="3" fill="#F7F3EC"/><rect x="48" y="74" width="18" height="3" fill="#9A9486"/><rect x="48" y="81" width="12" height="3" fill="#C9C3B4"/>
-  <!-- garlic -->
-  <path d="M150 108 C126 108 124 78 150 62 C176 78 174 108 150 108 Z" fill="#F4EEDD" stroke="#D9CFB4" stroke-width="1.5"/>
-  <path d="M150 62 q-2 -10 1 -17" stroke="#D9CFB4" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-  <path d="M141 70 Q135 90 144 106 M159 70 Q165 90 156 106 M150 66 V106" stroke="#D9CFB4" fill="none" stroke-width="1.5"/>
-  <path d="M190 108 C174 108 172 88 190 77 C208 88 206 108 190 108 Z" fill="#F4EEDD" stroke="#D9CFB4" stroke-width="1.5"/>
-  <!-- chili -->
-  <path d="M236 106 C262 104 290 88 298 56 C299 50 306 50 306 57 C304 94 268 114 236 108 Z" fill="#D93222"/>
-  <path d="M302 54 q3 -9 11 -10" stroke="#3C8F5A" stroke-width="4" fill="none" stroke-linecap="round"/>
-  <path d="M240 100 C256 98 274 90 284 72" stroke="#fff" opacity=".35" stroke-width="3" fill="none" stroke-linecap="round"/>
-  <path d="M262 108 C282 108 304 98 322 80 C326 76 330 80 328 84 C316 102 292 112 262 110 Z" fill="#C42B1D"/>
-  <!-- rice bowl -->
-  <path d="M376 76 C380 50 452 50 456 76 Z" fill="#fff" stroke="#E4DFD2"/>
-  <path d="M370 74 H462 C462 98 442 108 416 108 C390 108 370 98 370 74 Z" fill="#fff" stroke="#D8D2C2"/>
-  <path d="M375 86 H457" stroke="#E8382A" stroke-width="3"/>
-  <path d="M440 56 L492 26 M449 60 L499 32" stroke="#8A5A2B" stroke-width="3" stroke-linecap="round"/>
-  <path d="M404 44 q-7 -9 0 -17 q7 -8 0 -16 M426 44 q-7 -9 0 -17 q7 -8 0 -16" stroke="#B9B4A6" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>
-  <!-- pot -->
-  <rect x="520" y="64" width="64" height="44" rx="7" fill="#B5BAC0"/>
-  <path d="M518 64 H586 C586 52 518 52 518 64 Z" fill="#9AA0A6"/><circle cx="552" cy="52" r="5" fill="#3A3D42"/>
-  <rect x="506" y="78" width="14" height="6" rx="3" fill="#3A3D42"/><rect x="584" y="78" width="14" height="6" rx="3" fill="#3A3D42"/>
-  <rect x="526" y="72" width="6" height="30" rx="3" fill="#fff" opacity=".35"/>
+  <!-- 에코백 -->
+  <path d="M52 50 Q52 24 74 24 Q96 24 96 50" fill="none" stroke="#B9955D" stroke-width="4" stroke-linecap="round"/>
+  <rect x="38" y="46" width="72" height="62" rx="5" fill="#F4EAD2"/><rect x="38" y="46" width="72" height="8" fill="#E8D9B6"/>
+  <path d="M74 76 c-8 -8 -16 -2 -10 6 c4 5 10 9 10 9 c0 0 6 -4 10 -9 c6 -8 -2 -14 -10 -6 Z" fill="#E8553A"/>
+  <!-- 잼 병 2개 -->
+  <rect x="150" y="62" width="34" height="46" rx="6" fill="#fff" fill-opacity=".7" stroke="#C8C2B2"/><rect x="154" y="74" width="26" height="30" rx="4" fill="#E0733A"/><rect x="152" y="54" width="30" height="10" rx="3" fill="#C9503A"/><rect x="156" y="84" width="22" height="12" rx="2" fill="#fff" fill-opacity=".9"/>
+  <rect x="192" y="72" width="30" height="36" rx="6" fill="#fff" fill-opacity=".7" stroke="#C8C2B2"/><rect x="196" y="82" width="22" height="22" rx="4" fill="#8A3F5B"/><rect x="194" y="65" width="26" height="9" rx="3" fill="#D9C7A0"/>
+  <!-- 과일 바구니 -->
+  <path d="M262 70 L270 108 H340 L348 70 Z" fill="#C99A5B"/><path d="M266 84 H344 M268 96 H342" stroke="#A67A3F" stroke-width="2.5"/>
+  <circle cx="287" cy="66" r="13" fill="#E8862E"/><circle cx="312" cy="62" r="14" fill="#F0A33A"/><circle cx="334" cy="68" r="12" fill="#E8553A"/>
+  <path d="M312 49 q4 -8 10 -8" stroke="#3C8F5A" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <!-- 화분 -->
+  <path d="M392 78 L398 108 H430 L436 78 Z" fill="#C8683F"/><rect x="388" y="72" width="52" height="9" rx="3" fill="#B65A34"/>
+  <g fill="#4E9B5E"><ellipse cx="402" cy="52" rx="8" ry="18" transform="rotate(-26 402 52)"/><ellipse cx="414" cy="44" rx="8" ry="22"/><ellipse cx="426" cy="52" rx="8" ry="18" transform="rotate(26 426 52)"/></g>
+  <!-- 나무 상자 + 김 -->
+  <rect x="482" y="68" width="76" height="40" rx="3" fill="#D6A96A"/><path d="M482 80 H558 M482 94 H558" stroke="#B98E4F" stroke-width="2.5"/>
+  <rect x="492" y="52" width="56" height="22" rx="2" fill="#2F6B4A"/><rect x="492" y="60" width="56" height="4" fill="#E8553A"/>
+  <!-- 엽서 -->
+  <rect x="580" y="62" width="34" height="46" rx="2" fill="#fff" stroke="#E4DFD2"/><rect x="585" y="68" width="24" height="18" fill="#AEDCC8"/><path d="M585 98 H609 M585 103 H600" stroke="#C9C3B4" stroke-width="2"/>
 </svg>
     </div>
-    <div class="counterfront"></div>
-    <div class="cabinet"><i class="door"></i><i class="door"></i><i class="door"></i><i class="door"></i></div>
+    <div class="tablefront"></div>
+    <div class="grass"></div>
   </main>
 
-  <div class="toast" id="toast">완성 — 결과 발표 화면을 확인하세요</div>
+  <div class="toast" id="toast">매대에 올렸어요 — 발표 화면을 확인하세요</div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
@@ -465,13 +370,13 @@
 
     submitBtn.addEventListener('click', async ()=>{
       if (!authorEl.value.trim()){
-        statusLine.textContent = '셰프 이름(또는 모둠명)을 먼저 적어주세요.';
+        statusLine.textContent = '이름(또는 모둠명)을 먼저 적어주세요.';
         statusLine.className = 'status err';
         authorEl.focus();
         return;
       }
       if (strokes.length === 0 && !menuNameEl.value.trim()){
-        statusLine.textContent = '그림을 그리거나 메뉴 이름을 먼저 적어주세요.';
+        statusLine.textContent = '상품 그림을 그리거나 상품 이름을 먼저 적어주세요.';
         statusLine.className = 'status err';
         menuNameEl.focus();
         return;
@@ -483,7 +388,7 @@
       }
 
       submitBtn.disabled = true;
-      statusLine.textContent = '냉장고에 담는 중...';
+      statusLine.textContent = '매대에 올리는 중...';
       statusLine.className = 'status';
 
       const dataUrl = exportSmallImage(480);
@@ -503,7 +408,7 @@
           8000,
           '8초 안에 응답이 없어요. Firebase 설정(config 값, Firestore 규칙)이나 네트워크를 확인해주세요.'
         );
-        statusLine.textContent = '완성!';
+        statusLine.textContent = '입점 완료!';
         statusLine.className = 'status ok';
         showToast();
         strokes = []; redraw();
