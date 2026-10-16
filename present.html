@@ -129,40 +129,42 @@
   @keyframes stampIn{ to{ transform:rotate(-14deg) scale(1); } }
 
   .card .cardbody{ padding:8px 12px 2px; display:flex; flex-direction:column; gap:4px; }
-  .card .hint{ font-size:12.5px; color:#7B8A93; font-weight:700; text-align:center; padding:4px 0; }
-  .regiontag{ font-size:12px; font-weight:900; color:var(--accent); }
-  .card .name{ font-family:'Gothic A1',sans-serif; font-weight:900; font-size:17px; line-height:1.2; color:var(--ink); }
-  .card .desc{ font-size:12.5px; color:var(--ink-soft); line-height:1.45; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .card .hint{ font-size:15px; color:#7B8A93; font-weight:700; text-align:center; padding:4px 0; }
+  .regiontag{ font-size:15px; font-weight:900; color:var(--accent); }
+  .card .name{ font-family:'Gothic A1',sans-serif; font-weight:900; font-size:21px; line-height:1.2; color:var(--ink); }
+  .card .desc{ font-size:14.5px; font-weight:500; color:#5E594F; line-height:1.45; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
   .tag{ font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:3px; background:var(--panel-2); color:var(--ink-soft); }
   .tag.teal{ background:color-mix(in srgb, var(--teal) 22%, var(--panel-2)); color:var(--teal); }
   .tags{ display:flex; gap:5px; flex-wrap:wrap; }
 
-  /* ===== 발표 팝업 ===== */
-  #present{ position:fixed; inset:0; background:rgba(20,24,28,.88); display:none; align-items:center; justify-content:center; padding:24px; z-index:50; }
+  /* ===== 발표 팝업 (멀리서도 보이게: 크게 + 굵게) ===== */
+  #present{ position:fixed; inset:0; background:rgba(20,24,28,.9); display:none; align-items:center; justify-content:center; padding:2vh 0; z-index:50; }
   #present.open{ display:flex; }
   .presentcard{
-    background:var(--panel); border-radius:12px; max-width:1240px; height:min(88vh, 780px);
-    overflow:hidden; box-shadow:0 40px 80px -20px rgba(0,0,0,.35); display:flex; flex-direction:row;
+    background:var(--panel); border-radius:14px; width:min(calc(100vw - 190px), 1800px); height:min(96vh, 1060px);
+    overflow:hidden; box-shadow:0 40px 80px -20px rgba(0,0,0,.45); display:flex; flex-direction:row;
     border:1px solid var(--line);
   }
-  .presentcard .dish{ flex:none; width:min(88vh, 780px); }
-  .presentbody{ flex:1; min-width:0; padding:36px 40px; display:flex; flex-direction:column; justify-content:center; gap:14px; overflow:auto; }
+  .presentcard .dish{ flex:none; width:min(96vh, 1060px); }
+  .presentbody{ --fs:1; flex:1; min-width:0; padding:3.4vh 3.2vw; display:flex; flex-direction:column; justify-content:center; justify-content:safe center; gap:2.4vh; overflow:hidden; }
   .regionpill{ align-self:flex-start; background:var(--accent); color:#fff; font-weight:900; font-family:'Gothic A1',sans-serif;
-    font-size:clamp(16px,1.7vw,24px); padding:4px 18px; border-radius:99px; }
-  .presentbody .name{ font-family:'Gothic A1',sans-serif; font-weight:900; font-size:clamp(30px,3.4vw,48px); color:var(--ink); line-height:1.15; }
-  .presentbody .desc{ font-size:clamp(17px,1.6vw,22px); line-height:1.65; color:var(--ink); }
-  .presentbody .tag{ font-size:14px; padding:4px 12px; }
-  .presentbody .name,.presentbody .desc,.card .name,.card .desc{ word-break:keep-all; }
-  .seller{ font-size:14px; font-weight:700; color:var(--gold); }
+    font-size:calc(clamp(22px, min(2.6vw,4.2vh), 46px) * var(--fs)); padding:.2em .8em; border-radius:99px; line-height:1.25; }
+  .presentbody .name{ font-family:'Gothic A1',sans-serif; font-weight:900; color:#16130F; line-height:1.15; word-break:keep-all;
+    font-size:calc(clamp(38px, min(4.8vw,8vh), 96px) * var(--fs)); }
+  .presentbody .blk .lbl{ font-size:calc(clamp(16px, min(1.5vw,2.5vh), 28px) * var(--fs)); font-weight:900; color:var(--accent); letter-spacing:.04em; margin-bottom:.25em; }
+  .presentbody .blk .val, .presentbody .desc{ font-size:calc(clamp(26px, min(2.9vw,4.7vh), 54px) * var(--fs)); font-weight:800; line-height:1.38; color:#1F1B16; word-break:keep-all; }
+  .presentbody .blk.foreign{ border-left:.35em solid var(--accent); padding-left:.7em; background:rgba(232,85,58,.07); border-radius:0 10px 10px 0; padding-block:.4em; }
+  .presentbody .blk.foreign .val{ font-size:calc(clamp(24px, min(2.6vw,4.2vh), 48px) * var(--fs)); }
+  .seller{ font-size:calc(clamp(18px, min(1.7vw,2.8vh), 32px) * var(--fs)); font-weight:900; color:var(--gold); }
   @media (max-aspect-ratio: 1/1){
-    .presentcard{ flex-direction:column; height:auto; max-height:92vh; }
+    .presentcard{ flex-direction:column; height:auto; max-height:96vh; width:94vw; overflow:auto; }
     .presentcard .dish{ width:min(100%, 52vh); align-self:center; }
-    .presentbody{ padding:20px 24px; }
+    .presentbody{ padding:20px 24px; overflow:visible; }
   }
-  .presentnav{ position:absolute; top:50%; transform:translateY(-50%); background:var(--panel); border:1px solid var(--line); width:48px; height:48px; border-radius:50%; font-size:20px; cursor:pointer; box-shadow:var(--shadow); color:var(--ink); }
-  #prevBtn{ left:16px; } #nextBtn{ right:16px; }
-  #closePresent{ position:absolute; top:20px; right:20px; background:var(--panel); border:1px solid var(--line); width:38px; height:38px; border-radius:50%; cursor:pointer; font-size:17px; box-shadow:var(--shadow); color:var(--ink); z-index:2; }
-  .presentindex{ font-size:13px; color:var(--ink-soft); }
+  .presentnav{ position:absolute; top:50%; transform:translateY(-50%); background:var(--panel); border:1px solid var(--line); width:64px; height:64px; border-radius:50%; font-size:28px; cursor:pointer; box-shadow:var(--shadow); color:var(--ink); }
+  #prevBtn{ left:20px; } #nextBtn{ right:20px; }
+  #closePresent{ position:absolute; top:20px; right:24px; background:var(--panel); border:1px solid var(--line); width:48px; height:48px; border-radius:50%; cursor:pointer; font-size:21px; box-shadow:var(--shadow); color:var(--ink); z-index:2; }
+  .presentindex{ font-size:calc(clamp(15px, min(1.3vw,2.2vh), 24px)); color:var(--ink-soft); font-weight:700; }
 </style>
 </head>
 <body>
@@ -355,12 +357,19 @@
         '<div class="presentbody"' + (revealed ? '' : ' style="opacity:0"') + '>' +
           (en.korean ? '<div class="regionpill">' + escapeHtml(en.korean) + '</div>' : '') +
           '<div class="name">' + escapeHtml(en.name || '이름 없는 상품') + '</div>' +
-          (en.culture ? '<div class="tags"><span class="tag teal">담은 것 · ' + escapeHtml(en.culture) + '</span></div>' : '') +
-          '<div class="desc">' + escapeHtml(en.desc || '') + '</div>' +
-          (en.country ? '<div class="desc"><strong>외국인에게 팔려면:</strong> ' + escapeHtml(en.country) + '</div>' : '') +
+          (en.culture ? '<div class="blk"><div class="lbl">이 지역의 무엇을 담았나요?</div><div class="val">' + escapeHtml(en.culture) + '</div></div>' : '') +
+          (en.desc ? '<div class="desc">' + escapeHtml(en.desc) + '</div>' : '') +
+          (en.country ? '<div class="blk foreign"><div class="lbl">외국인에게 팔려면?</div><div class="val">' + escapeHtml(en.country) + '</div></div>' : '') +
           (en.author ? '<div class="seller">셀러 · ' + escapeHtml(en.author) + '</div>' : '') +
           '<div class="presentindex">' + (currentPresentIdx+1) + ' / ' + entries.length + '</div>' +
         '</div>';
+      // 글이 길어도 한 화면에 다 들어오도록 글자 크기를 자동으로 줄임
+      (function fit(){
+        const body = presentCard.querySelector('.presentbody');
+        if (!body || window.matchMedia('(max-aspect-ratio: 1/1)').matches) return;
+        let f = 1; body.style.setProperty('--fs', f);
+        while (body.scrollHeight > body.clientHeight + 1 && f > 0.5){ f -= 0.05; body.style.setProperty('--fs', f.toFixed(2)); }
+      })();
 
       if (!revealed){
         const dishEl = presentCard.querySelector('.dish');
@@ -381,7 +390,8 @@
         }, 1250);
       }
     }
-    function openPresent(idx){ currentPresentIdx = idx; renderPresent(); present.classList.add('open'); }
+    function openPresent(idx){ currentPresentIdx = idx; present.classList.add('open'); renderPresent(); }
+    window.addEventListener('resize', () => { if (present.classList.contains('open')) renderPresent(); });
     function closePresent(){ present.classList.remove('open'); }
 
     document.getElementById('closePresent').addEventListener('click', closePresent);
