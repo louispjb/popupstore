@@ -141,13 +141,56 @@
   #present{ position:fixed; inset:0; background:rgba(20,24,28,.9); display:none; align-items:center; justify-content:center; padding:2vh 0; z-index:50; }
   #present.open{ display:flex; }
   .presentcard{
-    background:var(--panel); border-radius:14px; width:min(calc(100vw - 190px), 1800px); height:min(96vh, 1060px);
-    overflow:hidden; box-shadow:0 40px 80px -20px rgba(0,0,0,.45); display:flex; flex-direction:row;
-    border:1px solid var(--line);
+    position:relative; width:min(calc(100vw - 190px), 1800px); height:min(96vh, 1060px);
+    overflow:hidden; border-radius:14px; box-shadow:0 40px 80px -20px rgba(0,0,0,.5);
+    display:flex; flex-direction:column; background:#E9F2EE;
   }
-  .presentcard .dish{ flex:none; width:min(96vh, 1060px); }
-  .presentcard .dish .frame{ left:14.5%; top:22%; width:71%; padding:1.8cqw; }
-  .presentbody{ --fs:1; flex:1; min-width:0; padding:3.4vh 3.2vw; display:flex; flex-direction:column; justify-content:center; justify-content:safe center; gap:2.4vh; overflow:hidden; }
+  /* 팝업 전체가 하나의 매대: 위=천막+전구, 양옆=기둥, 아래=테이블보 */
+  .pc-canopy{ flex:none; position:relative; height:13.5vh; background:#EFD9A8; z-index:3; }
+  .pc-canopy .roof{ position:absolute; left:0; right:0; top:0; height:9vh;
+    background:repeating-linear-gradient(90deg,#fff 0 6vh,#E8553A 6vh 12vh); border-bottom:.5vh solid rgba(0,0,0,.06); }
+  .pc-canopy .scal{ position:absolute; left:0; right:0; top:8.6vh; height:3vh;
+    background:repeating-linear-gradient(90deg,#fff 0 6vh,#E8553A 6vh 12vh);
+    -webkit-mask:radial-gradient(circle at 3vh 0,#000 3vh,transparent 3.08vh) 0 0/6vh 100% repeat-x;
+            mask:radial-gradient(circle at 3vh 0,#000 3vh,transparent 3.08vh) 0 0/6vh 100% repeat-x; filter:drop-shadow(0 .5vh .5vh rgba(0,0,0,.18)); }
+  .pc-canopy .lights{ position:absolute; left:0; right:0; top:11.2vh; height:2.4vh;
+    background:radial-gradient(circle at 50% 50%, #FFE27A 0 .8vh, rgba(255,226,122,.45) .8vh 1.5vh, transparent 1.6vh) 0 0/7vh 100% repeat-x; }
+  .pc-main{ flex:1; min-height:0; display:flex; flex-direction:row; position:relative; z-index:1;
+    border-left:2vh solid #D9B879; border-right:2vh solid #D9B879; background:#fff; }
+  .pc-cloth{ flex:none; position:relative; height:12vh; z-index:3; display:flex; align-items:center; justify-content:center;
+    background:repeating-linear-gradient(90deg,#B1DDCB 0 4.4vh,#9FD0BD 4.4vh 8.8vh);
+    font-family:'Gothic A1',sans-serif; font-weight:900; color:#16463A; font-size:clamp(28px,6vh,70px); padding:0 6vw; }
+  .pc-cloth span{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; opacity:0; transition:opacity .3s; }
+  .pc-cloth::before{ content:''; position:absolute; left:0; right:0; top:0; height:1.2vh; background:#D9B879; }
+  .pstall[data-revealed="true"] ~ .presentbody{ }
+  .presentcard[data-revealed="true"] .pc-cloth span{ opacity:1; }
+  .presentcard.opening .pc-cloth span{ animation:fadeIn .35s ease .85s forwards; }
+
+  /* 왼쪽: 테이블 위의 그림만 크게 */
+  .pstall{ flex:0 0 56%; position:relative; overflow:hidden; container-type:size;
+    background:linear-gradient(180deg,#DCEBF2 0,#EAF2EE 70%,#E3D8B8 100%); }
+  .pstall .ptable{ position:absolute; left:0; right:0; bottom:0; height:11cqh;
+    background:linear-gradient(#EBCF98 0 18%,#D2AC6A 18% 100%); box-shadow:inset 0 .6cqh 0 rgba(255,255,255,.35); }
+  .pbox{ position:absolute; left:50%; bottom:9.5cqh; transform:translateX(-50%); width:min(90cqw, 76cqh*1.3333); aspect-ratio:4/3; }
+  .pstall .pframe{ position:absolute; inset:0; padding:1.4cqw; background:linear-gradient(135deg,#D6A96A,#C08F52); border-radius:1.2cqw;
+    box-shadow:0 1.6cqh 2.4cqh -.8cqh rgba(60,40,10,.55); transform-origin:50% 100%; transform:scale(.55) translateY(10%); opacity:0; }
+  .pstall .pframe .mat{ width:100%; height:100%; background:#FFFDF6; border-radius:.6cqw; overflow:hidden; display:flex; }
+  .pstall .pframe img{ width:100%; height:100%; object-fit:contain; display:block; }
+  .pstall[data-revealed="true"] .pframe{ transform:none; opacity:1; }
+  .pstall.opening .pframe{ animation:framePop .6s cubic-bezier(.32,1.7,.55,1) .42s forwards; }
+  .pstall .pcurtain{ position:absolute; left:0; right:0; top:0; bottom:0; z-index:4; transform-origin:50% 0;
+    background:linear-gradient(90deg,rgba(0,0,0,.07),transparent 18%,rgba(255,255,255,.4) 33%,transparent 50%,rgba(0,0,0,.06) 66%,transparent 83%,rgba(0,0,0,.09)),#F1E6CC;
+    border-bottom:1.1cqw solid #D8C79F; border-radius:0 0 1.2cqw 1.2cqw; box-shadow:0 1.6cqh 2.4cqh -1cqh rgba(60,40,10,.5);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.4cqh; text-align:center; color:#3B2A17; padding:0 8%; }
+  .pstall .pcurtain::before{ content:''; position:absolute; left:-1.5%; right:-1.5%; top:-1.2cqh; height:2.4cqh; border-radius:1.2cqh; background:linear-gradient(#E6C58C,#B98E4F); }
+  .pstall .pcurtain small{ font-size:min(2.6cqw,3.6cqh); letter-spacing:.22em; color:#9A8A6A; font-weight:700; }
+  .pstall .pcurtain b{ font-family:'Gothic A1',sans-serif; font-weight:900; font-size:min(8cqw,11cqh); line-height:1.18; word-break:keep-all; }
+  .pstall.opening .pcurtain{ animation:curtainUp .62s cubic-bezier(.55,0,.3,1) forwards; }
+  .pstall[data-revealed="true"] .pcurtain{ display:none; }
+  .pstall .stamp{ top:3cqw; right:3cqw; width:min(13cqw,19cqh); height:min(13cqw,19cqh); font-size:min(3.4cqw,5cqh); border-width:.5cqw; }
+  .pstall[data-revealed="true"] .stamp{ transform:rotate(-14deg) scale(1); }
+  .pstall.opening .stamp{ animation:stampIn .3s cubic-bezier(.4,1.8,.6,1) .95s forwards; }
+  .presentbody{ --fs:1; flex:1; min-width:0; padding:3vh 2.6vw; display:flex; flex-direction:column; justify-content:center; justify-content:safe center; gap:2.4vh; overflow:hidden; }
   .regionpill{ align-self:flex-start; background:var(--accent); color:#fff; font-weight:900; font-family:'Gothic A1',sans-serif;
     font-size:calc(clamp(22px, min(2.6vw,4.2vh), 46px) * var(--fs)); padding:.2em .8em; border-radius:99px; line-height:1.25; }
   .presentbody .name{ font-family:'Gothic A1',sans-serif; font-weight:900; color:#16130F; line-height:1.15; word-break:keep-all;
@@ -159,7 +202,8 @@
   .seller{ font-size:calc(clamp(18px, min(1.7vw,2.8vh), 32px) * var(--fs)); font-weight:900; color:var(--gold); }
   @media (max-aspect-ratio: 1/1){
     .presentcard{ flex-direction:column; height:auto; max-height:96vh; width:94vw; overflow:auto; }
-    .presentcard .dish{ width:min(100%, 52vh); align-self:center; }
+    .pc-main{ flex-direction:column; border-width:0 1.2vh; overflow:auto; }
+    .pstall{ flex:none; height:46vh; }
     .presentbody{ padding:20px 24px; overflow:visible; }
   }
   .presentnav{ position:absolute; top:50%; transform:translateY(-50%); background:var(--panel); border:1px solid var(--line); width:64px; height:64px; border-radius:50%; font-size:28px; cursor:pointer; box-shadow:var(--shadow); color:var(--ink); }
@@ -353,16 +397,24 @@
       const en = entries[currentPresentIdx];
       if (!en){ closePresent(); return; }
       const revealed = revealedIds.has(en.id);
+      presentCard.setAttribute('data-revealed', revealed ? 'true' : 'false'); presentCard.classList.remove('opening');
       presentCard.innerHTML =
-        stallHTML(en, revealed) +
+        '<div class="pc-canopy"><div class="roof"></div><div class="scal"></div><div class="lights"></div></div>' +
+        '<div class="pc-main">' +
+        '<div class="pstall"' + (revealed ? ' data-revealed="true"' : '') + '>' +
+          '<div class="ptable"></div>' +
+          '<div class="pbox"><div class="pframe"><div class="mat"><img src="' + en.image + '" alt="' + escapeHtml(en.name) + '"></div></div>' +
+          (revealed ? '' : '<div class="pcurtain"><small>OPEN 대기</small><b>' + escapeHtml(en.author || '셀러') + '</b></div>') + '</div>' +
+          '<div class="stamp">OPEN</div>' +
+        '</div>' +
         '<div class="presentbody"' + (revealed ? '' : ' style="opacity:0"') + '>' +
-          (en.korean ? '<div class="regionpill">' + escapeHtml(en.korean) + '</div>' : '') +
           '<div class="name">' + escapeHtml(en.name || '이름 없는 상품') + '</div>' +
           (en.culture ? '<div class="blk"><div class="lbl">이 지역의 무엇을 담았나요?</div><div class="val">' + escapeHtml(en.culture) + '</div></div>' : '') +
           (en.desc ? '<div class="desc">' + escapeHtml(en.desc) + '</div>' : '') +
           (en.author ? '<div class="seller">셀러 · ' + escapeHtml(en.author) + '</div>' : '') +
           '<div class="presentindex">' + (currentPresentIdx+1) + ' / ' + entries.length + '</div>' +
-        '</div>';
+        '</div></div>' +
+        '<div class="pc-cloth"><span>' + escapeHtml(en.korean || '우리 고향') + '</span></div>';
       // 글이 길어도 한 화면에 다 들어오도록 글자 크기를 자동으로 줄임
       (function fit(){
         const body = presentCard.querySelector('.presentbody');
@@ -372,18 +424,18 @@
       })();
 
       if (!revealed){
-        const dishEl = presentCard.querySelector('.dish');
+        const dishEl = presentCard.querySelector('.pstall');
         const bodyEl = presentCard.querySelector('.presentbody');
         playRevealSound();
         // 다음 프레임에 opening을 붙여서 애니메이션이 확실히 재생되게 함
         requestAnimationFrame(() => {
-          dishEl.classList.add('opening');
+          dishEl.classList.add('opening'); presentCard.classList.add('opening');
         });
         setTimeout(() => {
           revealedIds.add(en.id);
           // data-revealed="true"가 붙는 순간 CSS에서 가림막을 display:none 처리하므로,
           // 'opening' 클래스는 그대로 둬도(제거해도) 다시 닫히는 문제가 없음
-          dishEl.setAttribute('data-revealed', 'true');
+          dishEl.setAttribute('data-revealed', 'true'); presentCard.setAttribute('data-revealed', 'true');
           bodyEl.style.transition = 'opacity .35s ease';
           bodyEl.style.opacity = '1';
           renderGallery();
