@@ -359,7 +359,6 @@
           '<div class="name">' + escapeHtml(en.name || '이름 없는 상품') + '</div>' +
           (en.culture ? '<div class="blk"><div class="lbl">이 지역의 무엇을 담았나요?</div><div class="val">' + escapeHtml(en.culture) + '</div></div>' : '') +
           (en.desc ? '<div class="desc">' + escapeHtml(en.desc) + '</div>' : '') +
-          (en.country ? '<div class="blk foreign"><div class="lbl">외국인에게 팔려면?</div><div class="val">' + escapeHtml(en.country) + '</div></div>' : '') +
           (en.author ? '<div class="seller">셀러 · ' + escapeHtml(en.author) + '</div>' : '') +
           '<div class="presentindex">' + (currentPresentIdx+1) + ' / ' + entries.length + '</div>' +
         '</div>';

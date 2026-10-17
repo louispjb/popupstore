@@ -177,10 +177,6 @@
           <label for="desc">한 줄 소개</label>
           <textarea id="desc" maxlength="140" placeholder="예: 횡성 한우를 얇게 말린 선물용 육포 세트예요."></textarea>
         </div>
-        <div class="field">
-          <label for="country">외국인 관광객에게 팔려면 뭘 바꿀까요?</label>
-          <input type="text" id="country" placeholder="예: 영어 설명 카드와 한 입 크기 소포장" maxlength="60">
-        </div>
       </section>
 
       <button class="primarybtn" id="submitBtn" type="button">매대에 올리기</button>
@@ -358,7 +354,7 @@
     const koreanEl = document.getElementById('korean');
     const cultureEl = document.getElementById('culture');
     const descEl = document.getElementById('desc');
-    const countryEl = document.getElementById('country');
+    const countryEl = document.getElementById('country') || { value: '' };
     const submitBtn = document.getElementById('submitBtn');
     const statusLine = document.getElementById('statusLine');
     const toast = document.getElementById('toast');
