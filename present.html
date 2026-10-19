@@ -209,6 +209,15 @@
   .presentnav{ position:absolute; top:50%; transform:translateY(-50%); background:var(--panel); border:1px solid var(--line); width:64px; height:64px; border-radius:50%; font-size:28px; cursor:pointer; box-shadow:var(--shadow); color:var(--ink); }
   #prevBtn{ left:20px; } #nextBtn{ right:20px; }
   #closePresent{ position:absolute; top:20px; right:24px; background:var(--panel); border:1px solid var(--line); width:48px; height:48px; border-radius:50%; cursor:pointer; font-size:21px; box-shadow:var(--shadow); color:var(--ink); z-index:2; }
+  .card{ position:relative; }
+  .delbtn{ position:absolute; top:6px; right:6px; z-index:9; width:30px; height:30px; border-radius:50%; border:0; cursor:pointer;
+    background:rgba(40,30,20,.72); color:#fff; font-size:15px; line-height:1; opacity:0; transition:opacity .15s; display:flex; align-items:center; justify-content:center; }
+  .card:hover .delbtn, .delbtn:focus{ opacity:1; }
+  @media (hover:none){ .delbtn{ opacity:.85; } }
+  .delbtn:hover{ background:var(--accent); }
+  .popdel{ align-self:flex-start; margin-top:auto; border:1px solid var(--line); background:#fff; color:var(--accent); font-weight:800; font-family:inherit;
+    font-size:clamp(14px,1.3vw,20px); padding:.55em 1.1em; border-radius:99px; cursor:pointer; }
+  .popdel:hover{ background:var(--accent); color:#fff; }
   .presentindex{ font-size:calc(clamp(15px, min(1.3vw,2.2vh), 24px)); color:var(--ink-soft); font-weight:700; }
 </style>
 </head>
@@ -366,6 +375,10 @@
                 '<div class="desc">' + escapeHtml(en.desc || '') + '</div>'
               : '<div class="hint">가림막을 열어보세요</div>') +
           '</div>';
+        const del = document.createElement('button');
+        del.className = 'delbtn'; del.type = 'button'; del.title = '이 매대 삭제'; del.textContent = '🗑';
+        del.addEventListener('click', (e) => { e.stopPropagation(); deleteOne(en); });
+        card.appendChild(del);
         card.addEventListener('click', () => openPresent(idx));
         galleryEl.appendChild(card);
       });
@@ -382,6 +395,11 @@
       });
     }
 
+    async function deleteOne(en){
+      if (!confirm('"' + (en.name || '이 상품') + '" (' + (en.author || '셀러') + ') 매대를 삭제할까요? 되돌릴 수 없어요.')) return false;
+      try { await deleteDoc(doc(db, 'submissions', en.id)); return true; }
+      catch(err){ alert('삭제하지 못했어요: ' + (err.code || err.message)); return false; }
+    }
     document.getElementById('resetAllBtn').addEventListener('click', async () => {
       if (!confirm('모든 매대를 비울까요? 되돌릴 수 없어요.')) return;
       const snap = await getDocs(submissionsRef);
@@ -413,6 +431,7 @@
           (en.desc ? '<div class="desc">' + escapeHtml(en.desc) + '</div>' : '') +
           (en.author ? '<div class="seller">셀러 · ' + escapeHtml(en.author) + '</div>' : '') +
           '<div class="presentindex">' + (currentPresentIdx+1) + ' / ' + entries.length + '</div>' +
+          '<button class="popdel" id="popDel" type="button">🗑 이 매대 삭제</button>' +
         '</div></div>' +
         '<div class="pc-cloth"><span>' + escapeHtml(en.korean || '우리 고향') + '</span></div>';
       // 글이 길어도 한 화면에 다 들어오도록 글자 크기를 자동으로 줄임
@@ -447,6 +466,14 @@
     function closePresent(){ present.classList.remove('open'); }
 
     document.getElementById('closePresent').addEventListener('click', closePresent);
+    presentCard.addEventListener('click', async (e) => {
+      if (!e.target.closest('#popDel')) return;
+      const en = entries[currentPresentIdx]; if (!en) return;
+      if (await deleteOne(en)){
+        if (entries.length <= 1) closePresent();
+        else setTimeout(() => { if (currentPresentIdx >= entries.length) currentPresentIdx = entries.length - 1; renderPresent(); }, 250);
+      }
+    });
     document.getElementById('prevBtn').addEventListener('click', () => {
       currentPresentIdx = (currentPresentIdx - 1 + entries.length) % entries.length; renderPresent();
     });
