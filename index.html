@@ -113,9 +113,26 @@
   .grass{ height:70px; background:#79AE78; position:relative; z-index:1; border-top:4px solid #D9C8A0;
     background-image:repeating-linear-gradient(0deg, rgba(255,255,255,.12) 0 3px, transparent 3px 22px); }
 
-  .toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%) translateY(120%); background:var(--ink); color:var(--bg); padding:12px 20px; border-radius:4px;
-    font-family:'Gothic A1',sans-serif; font-weight:900; font-size:14px; box-shadow:var(--shadow); transition:transform .3s ease; z-index:10; border-left:4px solid var(--accent); }
-  .toast.show{ transform:translateX(-50%) translateY(0); }
+  .done{ position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center; padding:20px;
+    background:rgba(30,22,12,.62); opacity:0; pointer-events:none; transition:opacity .25s ease; }
+  .done.show{ opacity:1; pointer-events:auto; }
+  .donecard{ width:min(92vw,440px); background:#FFFDF6; border-radius:22px; padding:30px 24px 24px; text-align:center; position:relative;
+    border:5px solid #D9B98A; box-shadow:0 30px 70px -10px rgba(0,0,0,.55); transform:scale(.6) rotate(-3deg); }
+  .done.show .donecard{ animation:donePop .55s cubic-bezier(.3,1.7,.5,1) forwards; }
+  @keyframes donePop{ 0%{transform:scale(.6) rotate(-3deg);} 100%{transform:scale(1) rotate(0);} }
+  .donecard::before{ content:''; position:absolute; left:-5px; right:-5px; top:-5px; height:22px; border-radius:18px 18px 0 0;
+    background:repeating-linear-gradient(90deg,#fff 0 22px,#E8553A 22px 44px); }
+  .donecheck{ width:96px; height:96px; margin:14px auto 10px; border-radius:50%; background:var(--teal); display:flex; align-items:center; justify-content:center;
+    box-shadow:0 0 0 10px rgba(30,143,118,.18); }
+  .donecheck svg{ width:56px; height:56px; }
+  .donecheck path{ stroke-dasharray:40; stroke-dashoffset:40; }
+  .done.show .donecheck path{ animation:drawck .5s ease .3s forwards; }
+  @keyframes drawck{ to{ stroke-dashoffset:0; } }
+  .donecard h2{ margin:6px 0 4px; font-family:'Gothic A1',sans-serif; font-weight:900; font-size:32px; color:var(--brown); letter-spacing:-.01em; }
+  .donecard p{ margin:0 0 18px; font-size:17px; font-weight:700; color:#6B5B43; line-height:1.5; }
+  .donecard button{ width:100%; border:0; border-radius:14px; padding:15px; font-family:'Gothic A1',sans-serif; font-weight:900; font-size:20px;
+    background:var(--accent); color:#fff; cursor:pointer; box-shadow:0 5px 0 #B93F28; }
+  .donecard button:active{ transform:translateY(3px); box-shadow:0 2px 0 #B93F28; }
 </style>
 </head>
 <body>
@@ -208,7 +225,10 @@
     <div class="grass"></div>
   </main>
 
-  <div class="toast" id="toast">매대에 올렸어요 — 발표 화면을 확인하세요</div>
+  <div class="done" id="done" role="dialog" aria-live="assertive"><div class="donecard">
+    <div class="donecheck"><svg viewBox="0 0 56 56" fill="none"><path d="M13 29l10 10 20-22" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h2>매대에 올렸어요!</h2><p>제출 완료 🎉<br>발표 화면에서 내 매대를 확인해요</p>
+    <button type="button" id="doneOk">확인</button></div></div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
@@ -357,12 +377,14 @@
     const countryEl = document.getElementById('country') || { value: '' };
     const submitBtn = document.getElementById('submitBtn');
     const statusLine = document.getElementById('statusLine');
-    const toast = document.getElementById('toast');
 
     function showToast(){
-      toast.classList.add('show');
-      setTimeout(()=>toast.classList.remove('show'), 2600);
+      const dn = document.getElementById('done');
+      dn.classList.add('show');
+      clearTimeout(window.__dt); window.__dt = setTimeout(()=>dn.classList.remove('show'), 6000);
     }
+    document.getElementById('doneOk').addEventListener('click', ()=>document.getElementById('done').classList.remove('show'));
+    document.getElementById('done').addEventListener('click', (e)=>{ if(e.target.id==='done') e.target.classList.remove('show'); });
 
     submitBtn.addEventListener('click', async ()=>{
       if (!authorEl.value.trim()){
